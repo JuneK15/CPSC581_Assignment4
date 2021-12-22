@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
+    <style>
+
+      .backButton {
+        height: 40px;
+        position: fixed;
+        bottom: 0%;
+
+
+      }
+      .chatbox {
+        height: 40px;
+        position: fixed;
+        bottom: 0%;
+        width: 100%;
+/*         width: 96.5%; */
+        background-color: #FEFEFF;
+        opacity: 1;
+      }
+
+      a-scene {
+        height: 300px;
+        width: 600px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <a-scene spawn>
+
+      <a-gltf-model
+src="https://cdn.glitch.me/93302de1-386e-45b7-857f-d2ee76911970%2Fscene%20(2).glb?v=1638942850707"
+scale ="0.5 0.5 0.5" position="0 0 -2" ></a-gltf-model>
+
+    </a-scene>
+    <div id="myEmbeddedScene">
+      <a-scene>
+<!--         <a-entity geometry="primitive: sphere; radius: 0.5"
+material="color: red" position="0 0 -3"></a-entity> -->
+<!--         <a-entity geometry="primitive:box;" position = "0 3 -3"
+material="shader:gif;src:url(https://cdn.glitch.me/37d43b07-5148-46ab-8bf0-0be2162fa972%2F4cbe8d_f1ed2800a49649848102c68fc5a66e53mv2.gif?v=1638916322032);color:white;opacity:.8"
+></a-entity> -->
+        <a-entity geometry="primitive:box; depth:0" position = "-1 3
+-3" material="shader:gif;src:url(https://cdn.glitch.me/747305e6-c6bd-4f4e-9df5-2b02e4c77b01/hello.gif?v=1639554553220);color:white;opacity:1"
+></a-entity>
+        <a-entity geometry="primitive:box; depth:0" position = "1 3 2"
+material="shader:gif;src:url(https://cdn.glitch.me/747305e6-c6bd-4f4e-9df5-2b02e4c77b01/love.gif?v=1639554561268);color:white;opacity:1"
+></a-entity>
+      </a-scene>
+    </div>
+
+    <div id="main" class="main"></div>
+
+
+    <input class="chatbox" type="text" id="chatbox" name="chatbox" />
+
+
+    <script>
+      //address for profile images
+      const ame =
+        "https://cdn.glitch.me/79cb0af8-289f-4799-9190-fc33be9edede%2Fdownload.jpg?v=1638296175995";
+      const gura =
+        "https://cdn.glitch.me/79cb0af8-289f-4799-9190-fc33be9edede%2F7bc0dee81fff44819463baea6d7e3c2c.jpg?v=1638296153357";
+
+      //init socket
+      var socket = io();
+
+      //put in your address
+      socket.connect("https://arworld.glitch.me/:3000");
+
+      //TODO: when text is recieved...
+      socket.on("data", d => {
+        //TODO: create text
+        var text = document.createElement("p");
+        text.innerHTML = d.msg;
+      });
+
+      //reference to text box
+      var chatbox = document.getElementById("chatbox");
+
+      //TODO: handles sending text when enter is pressed
+      chatbox.addEventListener("keydown", event => {
+        if (event.code == "Enter" && chatbox.value != "") {
+          //TODO: create JSON
+          // var data = {
+//             user: me,
+//             msg: chatbox.value
+//           };
+
+//           //TODO: emit data, clear textbox
+//           socket.emit("data", data);
+          chatbox.value = "";
+        }
+      });
+    </script>
+  </body>
+</html>
